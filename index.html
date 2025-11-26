@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q-SENTINEL: Project & Action Plan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        body { font-family: 'Inter', sans-serif; background-color: #F5F5F0; color: #2D2D2A; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #E6E6E1; }
+        ::-webkit-scrollbar-thumb { background: #A8A29E; border-radius: 4px; }
+        
+        /* Chart Container Rules - Strict Compliance */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container { height: 350px; }
+        }
+
+        /* Utility for hiding sections */
+        .hidden-section { display: none; }
+        .active-tab { border-bottom: 2px solid #D4A373; color: #2D2D2A; font-weight: 600; }
+        .inactive-tab { color: #8A817C; }
+        .inactive-tab:hover { color: #5C5552; }
+
+        /* Node Animation for Network Viz */
+        .node-pulse {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 0.8; }
+            100% { transform: scale(2.4); opacity: 0; }
+        }
+    </style>
+    <!-- Chosen Palette: Warm Neutrals (Alabaster Background, Charcoal Text, Sand/Taupe Accents) -->
+    <!-- Application Structure Plan: Dashboard layout with top-level navigation. 
+         1. Overview: Executive summary of the proposed project.
+         2. Roadmap: Interactive timeline of learning and development steps.
+         3. Architecture: Technical breakdown of the Q-SMAO system.
+         4. Simulation: A live mockup of the system dashboard (Data Viz) to demonstrate the "End Goal".
+         5. Resources: curated learning path.
+         This structure moves from "What" -> "How" -> "Why" -> "Proof of Concept" -> "Tools". -->
+    <!-- Visualization & Content Choices:
+         1. Roadmap: CSS Timeline + JS Interaction (Show/Hide details). Goal: Inform/Organize.
+         2. Architecture: Interactive HTML/CSS Diagram (No SVG). Goal: Relationships.
+         3. Simulation Charts: Chart.js (Line/Bar/Doughnut). 
+            - Key Rate (Line): Shows QKD stability. 
+            - Agent Security (Doughnut): Shows LLM query safety.
+            - Network Fidelity (Bar): Shows entanglement quality.
+            Goal: Inform/Change (Simulated live updates).
+         4. Resources: Filterable Grid. Goal: Organize.
+         Confirming NO SVG graphics used. NO Mermaid JS used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm border-b border-stone-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="h-8 w-8 bg-stone-800 rounded flex items-center justify-center text-stone-100 font-bold mr-3">Q</div>
+                    <span class="font-bold text-xl tracking-tight text-stone-800">Q-SENTINEL</span>
+                </div>
+                <nav class="flex space-x-8">
+                    <button onclick="switchTab('overview')" id="nav-overview" class="active-tab px-3 py-2 text-sm transition-colors">Project Brief</button>
+                    <button onclick="switchTab('roadmap')" id="nav-roadmap" class="inactive-tab px-3 py-2 text-sm transition-colors">Action Plan</button>
+                    <button onclick="switchTab('simulation')" id="nav-simulation" class="inactive-tab px-3 py-2 text-sm transition-colors">Live Simulation</button>
+                    <button onclick="switchTab('resources')" id="nav-resources" class="inactive-tab px-3 py-2 text-sm transition-colors">Learning Resources</button>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow bg-[#F5F5F0] py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- VIEW: OVERVIEW -->
+            <section id="view-overview" class="space-y-6">
+                
+                <!-- Intro Hero -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-8">
+                    <h1 class="text-3xl font-bold text-stone-800 mb-4">Project: Q-SENTINEL</h1>
+                    <h2 class="text-lg text-stone-500 font-medium mb-6">Quantum-Secured Entanglement Network for Trusted Intelligent Node Enforcement Logic</h2>
+                    <p class="text-stone-600 leading-relaxed mb-6">
+                        This interactive dashboard proposes a portfolio project that positions you as a pioneer at the intersection of <strong>Quantum Networking</strong>, <strong>Cybersecurity</strong>, and <strong>Agentic AI</strong>. Q-SENTINEL is a simulation of a "Quantum-Secured Multi-Agent Orchestrator." It demonstrates how Quantum Key Distribution (QKD) can create tamper-proof channels for commanding autonomous Large Language Model (LLM) agents, preventing prompt injection attacks during transit.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                        <div class="p-4 bg-stone-50 rounded-lg border border-stone-100">
+                            <h3 class="font-bold text-stone-700 mb-2">Quantum Layer</h3>
+                            <p class="text-sm text-stone-500">Simulated BB84 Protocol & Entanglement Distribution (Qiskit/Netsquid logic) to generate unhackable keys.</p>
+                        </div>
+                        <div class="p-4 bg-stone-50 rounded-lg border border-stone-100">
+                            <h3 class="font-bold text-stone-700 mb-2">Network Security</h3>
+                            <p class="text-sm text-stone-500">Classical encrypted tunnels using Quantum-Derived Keys (QDK) to secure Agent C2 (Command & Control).</p>
+                        </div>
+                        <div class="p-4 bg-stone-50 rounded-lg border border-stone-100">
+                            <h3 class="font-bold text-stone-700 mb-2">Agentic Security</h3>
+                            <p class="text-sm text-stone-500">LLM Guards verifying cryptographic signatures before executing prompts, mitigating "Man-in-the-Middle" attacks.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Strategic Value -->
+                <div class="bg-white rounded-xl shadow-sm border border-stone-200 p-8">
+                    <h3 class="text-xl font-bold text-stone-800 mb-4">Why This Makes You a Star Candidate</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="flex-shrink-0 h-6 w-6 rounded-full bg-stone-200 flex items-center justify-center text-xs font-bold mt-0.5">1</span>
+                                    <p class="ml-3 text-stone-600 text-sm"><strong>Future-Proofing:</strong> Shows you understand Post-Quantum Cryptography (PQC) alternatives (QKD) ahead of the "Y2Q" curve.</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="flex-shrink-0 h-6 w-6 rounded-full bg-stone-200 flex items-center justify-center text-xs font-bold mt-0.5">2</span>
+                                    <p class="ml-3 text-stone-600 text-sm"><strong>Full Stack Complexity:</strong> You aren't just calling APIs; you are integrating physics simulations with network socket programming and AI.</p>
+                                </li>
+                            </ul>
+                        </div>
+                        <div>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="flex-shrink-0 h-6 w-6 rounded-full bg-stone-200 flex items-center justify-center text-xs font-bold mt-0.5">3</span>
+                                    <p class="ml-3 text-stone-600 text-sm"><strong>AI Safety Focus:</strong> Addressing "Agentic Security" is a top priority for Enterprise AI. You solve the transport layer of AI safety.</p>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="flex-shrink-0 h-6 w-6 rounded-full bg-stone-200 flex items-center justify-center text-xs font-bold mt-0.5">4</span>
+                                    <p class="ml-3 text-stone-600 text-sm"><strong>Visual Storytelling:</strong> By building a frontend (like this), you make complex quantum mechanics accessible to stakeholders.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: ROADMAP -->
+            <section id="view-roadmap" class="hidden-section space-y-6">
+                <div class="bg-white p-6 rounded-xl border border-stone-200">
+                    <h2 class="text-2xl font-bold text-stone-800 mb-2">12-Week Action Plan</h2>
+                    <p class="text-stone-500 mb-6">A step-by-step guide to building Q-SENTINEL. Click phases to expand details.</p>
+                    
+                    <div class="space-y-4" id="roadmap-container">
+                        <!-- JS will populate roadmap items here -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: SIMULATION -->
+            <section id="view-simulation" class="hidden-section space-y-6">
+                <!-- Dashboard Header -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center bg-white p-6 rounded-xl border border-stone-200 shadow-sm">
+                    <div>
+                        <h2 class="text-2xl font-bold text-stone-800">System Status: <span class="text-green-600">ONLINE</span></h2>
+                        <p class="text-stone-500 text-sm mt-1">Simulating Quantum Link Stability & Agent Integrity</p>
+                    </div>
+                    <div class="mt-4 md:mt-0 flex gap-3">
+                        <button id="btn-simulate-attack" class="px-4 py-2 bg-stone-200 hover:bg-stone-300 text-stone-800 rounded text-sm font-medium transition-colors">Simulate MITM Attack</button>
+                        <button id="btn-reset-sim" class="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-white rounded text-sm font-medium transition-colors">Reset System</button>
+                    </div>
+                </div>
+
+                <!-- Simulation Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    
+                    <!-- Quantum Key Distribution Metrics -->
+                    <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm flex flex-col">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-stone-700">QKD Key Generation Rate (kbps)</h3>
+                            <span class="text-xs bg-stone-100 text-stone-600 px-2 py-1 rounded">Protocol: BB84 (Simulated)</span>
+                        </div>
+                        <!-- Chart Container 1 -->
+                        <div class="chart-container flex-grow">
+                            <canvas id="qkdChart"></canvas>
+                        </div>
+                        <p class="text-xs text-stone-400 mt-4 text-center">Real-time bit rate derived from simulated photon polarization measurements.</p>
+                    </div>
+
+                    <!-- Agent Security Status -->
+                    <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm flex flex-col">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-stone-700">Agent Command Integrity</h3>
+                            <span class="text-xs bg-stone-100 text-stone-600 px-2 py-1 rounded">Filter: Last 100 Requests</span>
+                        </div>
+                        <!-- Chart Container 2 -->
+                        <div class="chart-container flex-grow">
+                            <canvas id="agentChart"></canvas>
+                        </div>
+                        <p class="text-xs text-stone-400 mt-4 text-center">Visualizes the ratio of verified quantum-signed prompts vs. intercepted/rejected prompts.</p>
+                    </div>
+
+                    <!-- Network Fidelity Histogram -->
+                    <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm flex flex-col">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-stone-700">Entanglement Fidelity Distribution</h3>
+                            <span class="text-xs bg-stone-100 text-stone-600 px-2 py-1 rounded">Bell Pairs</span>
+                        </div>
+                        <!-- Chart Container 3 -->
+                        <div class="chart-container flex-grow">
+                            <canvas id="networkChart"></canvas>
+                        </div>
+                        <p class="text-xs text-stone-400 mt-4 text-center">Fidelity > 0.8 required for secure key distillation.</p>
+                    </div>
+
+                    <!-- Live Attack Log -->
+                    <div class="bg-white p-6 rounded-xl border border-stone-200 shadow-sm flex flex-col h-[400px]"> <!-- Explicit height to match charts -->
+                        <h3 class="font-bold text-stone-700 mb-4">Security Event Log</h3>
+                        <div class="flex-grow overflow-y-auto bg-stone-50 rounded border border-stone-100 p-4 font-mono text-xs space-y-2" id="security-log">
+                            <!-- JS Populates this -->
+                            <div class="text-green-700">[10:42:01] SYS: Quantum Channel Established.</div>
+                            <div class="text-stone-600">[10:42:02] KEY: 256-bit AES key derived from QKD.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIEW: RESOURCES -->
+            <section id="view-resources" class="hidden-section space-y-6">
+                <div class="bg-white p-6 rounded-xl border border-stone-200">
+                    <h2 class="text-2xl font-bold text-stone-800 mb-6">Curated Learning Path</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Resource 1 -->
+                        <div class="p-5 rounded-lg border border-stone-200 hover:border-stone-400 transition-colors">
+                            <span class="text-xs font-bold text-[#D4A373] uppercase tracking-wide">Quantum Networking</span>
+                            <h3 class="font-bold text-stone-800 mt-2">Netsquid Simulator</h3>
+                            <p class="text-sm text-stone-600 mt-2 mb-4">The definitive tool for simulating quantum networks. Learn how to model qubits, optical fibers, and repeaters.</p>
+                            <span class="text-xs bg-stone-100 px-2 py-1 rounded">Documentation</span>
+                        </div>
+
+                         <!-- Resource 2 -->
+                         <div class="p-5 rounded-lg border border-stone-200 hover:border-stone-400 transition-colors">
+                            <span class="text-xs font-bold text-[#D4A373] uppercase tracking-wide">SDK</span>
+                            <h3 class="font-bold text-stone-800 mt-2">Qiskit (IBM)</h3>
+                            <p class="text-sm text-stone-600 mt-2 mb-4">Focus on the Qiskit Textbook, specifically the chapters on QKD (BB84/E91 protocols).</p>
+                            <span class="text-xs bg-stone-100 px-2 py-1 rounded">Python Library</span>
+                        </div>
+
+                         <!-- Resource 3 -->
+                         <div class="p-5 rounded-lg border border-stone-200 hover:border-stone-400 transition-colors">
+                            <span class="text-xs font-bold text-[#D4A373] uppercase tracking-wide">LLM Security</span>
+                            <h3 class="font-bold text-stone-800 mt-2">OWASP Top 10 for LLM</h3>
+                            <p class="text-sm text-stone-600 mt-2 mb-4">Essential reading to understand prompt injection, model theft, and supply chain vulnerabilities.</p>
+                            <span class="text-xs bg-stone-100 px-2 py-1 rounded">Security Standard</span>
+                        </div>
+
+                         <!-- Resource 4 -->
+                         <div class="p-5 rounded-lg border border-stone-200 hover:border-stone-400 transition-colors">
+                            <span class="text-xs font-bold text-[#D4A373] uppercase tracking-wide">Framework</span>
+                            <h3 class="font-bold text-stone-800 mt-2">LangChain</h3>
+                            <p class="text-sm text-stone-600 mt-2 mb-4">Learn how to build agents. You will need to write a custom "Tool" in LangChain that handles the encrypted traffic.</p>
+                            <span class="text-xs bg-stone-100 px-2 py-1 rounded">Python Framework</span>
+                        </div>
+
+                         <!-- Resource 5 -->
+                         <div class="p-5 rounded-lg border border-stone-200 hover:border-stone-400 transition-colors">
+                            <span class="text-xs font-bold text-[#D4A373] uppercase tracking-wide">Theory</span>
+                            <h3 class="font-bold text-stone-800 mt-2">Quantum Internet Alliance</h3>
+                            <p class="text-sm text-stone-600 mt-2 mb-4">Read their whitepapers on the Blueprint for a Quantum Internet to understand the architectural layers.</p>
+                            <span class="text-xs bg-stone-100 px-2 py-1 rounded">Whitepapers</span>
+                        </div>
+
+                         <!-- Resource 6 -->
+                         <div class="p-5 rounded-lg border border-stone-200 hover:border-stone-400 transition-colors">
+                            <span class="text-xs font-bold text-[#D4A373] uppercase tracking-wide">Network Security</span>
+                            <h3 class="font-bold text-stone-800 mt-2">Socket Programming</h3>
+                            <p class="text-sm text-stone-600 mt-2 mb-4">Brush up on Python's `socket` and `ssl` libraries. You'll be building a custom protocol wrapper.</p>
+                            <span class="text-xs bg-stone-100 px-2 py-1 rounded">Core Skill</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-stone-200 mt-auto">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <p class="text-center text-stone-400 text-sm">Generated for Future Quantum Architects. No real qubits were entangled in the making of this dashboard.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // --- State Management ---
+        const state = {
+            activeTab: 'overview',
+            isAttacking: false,
+            charts: {},
+            simulationInterval: null,
+            dataPoints: {
+                qkdRate: [],
+                labels: []
+            }
+        };
+
+        // --- Roadmap Data ---
+        const roadmapData = [
+            {
+                phase: "Phase 1: Foundations (Weeks 1-3)",
+                desc: "Mastering the physics and the frameworks.",
+                tasks: [
+                    "Complete Qiskit 'Hello World' and BB84 Protocol tutorial.",
+                    "Build a basic socket chat app in Python.",
+                    "Build a simple ReAct agent using LangChain."
+                ]
+            },
+            {
+                phase: "Phase 2: The Quantum-Classical Bridge (Weeks 4-6)",
+                desc: "Creating the simulation environment.",
+                tasks: [
+                    "Develop a Python script simulating Alice/Bob qubit exchange (using Qiskit Aer).",
+                    "Implement key sifting and error correction simulation.",
+                    "Create a 'Key Store' where simulated keys are saved for the network layer."
+                ]
+            },
+            {
+                phase: "Phase 3: The Secure Agent (Weeks 7-9)",
+                desc: "Integrating LLMs with the secure channel.",
+                tasks: [
+                    "Write a custom Transport Layer that encrypts LLM prompts using the QKD keys.",
+                    "Build the 'Orchestrator' node that receives prompts and validates signatures.",
+                    "Implement a 'Red Team' script that tries to inject prompts without the quantum key."
+                ]
+            },
+            {
+                phase: "Phase 4: Visualization & Polish (Weeks 10-12)",
+                desc: "Making it portfolio-ready.",
+                tasks: [
+                    "Build a web frontend (React or simple HTML/JS) to visualize the key generation.",
+                    "Dockerize the application (Simulated Quantum Node + Agent Node).",
+                    "Write a Medium article explaining 'Securing AI Agents with Quantum Networks'."
+                ]
+            }
+        ];
+
+        // --- DOM Elements ---
+        const tabButtons = document.querySelectorAll('nav button');
+        const sections = document.querySelectorAll('main section');
+        const roadmapContainer = document.getElementById('roadmap-container');
+        const securityLog = document.getElementById('security-log');
+
+        // --- Navigation Logic ---
+        function switchTab(tabId) {
+            // Update State
+            state.activeTab = tabId;
+
+            // Update UI
+            sections.forEach(section => {
+                section.classList.add('hidden-section');
+                if(section.id === `view-${tabId}`) section.classList.remove('hidden-section');
+            });
+
+            tabButtons.forEach(btn => {
+                btn.classList.remove('active-tab');
+                btn.classList.add('inactive-tab');
+                if(btn.id === `nav-${tabId}`) {
+                    btn.classList.remove('inactive-tab');
+                    btn.classList.add('active-tab');
+                }
+            });
+
+            // Trigger Chart Resize if entering simulation
+            if(tabId === 'simulation') {
+                setTimeout(() => {
+                    Object.values(state.charts).forEach(chart => chart.resize());
+                }, 100);
+            }
+        }
+
+        // --- Populators ---
+        function renderRoadmap() {
+            roadmapContainer.innerHTML = roadmapData.map((item, index) => `
+                <div class="border-l-2 border-stone-300 pl-4 ml-2 pb-4 relative">
+                    <div class="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-[#D4A373] border-2 border-white"></div>
+                    <h3 class="text-lg font-bold text-stone-700">${item.phase}</h3>
+                    <p class="text-sm text-stone-500 mb-2">${item.desc}</p>
+                    <ul class="list-disc list-inside text-stone-600 text-sm space-y-1 bg-stone-50 p-3 rounded">
+                        ${item.tasks.map(task => `<li>${task}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+        }
+
+        // --- Chart Initialization ---
+        function initCharts() {
+            // 1. QKD Rate Line Chart
+            const ctxQKD = document.getElementById('qkdChart').getContext('2d');
+            state.charts.qkd = new Chart(ctxQKD, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: 20}, (_, i) => i),
+                    datasets: [{
+                        label: 'Key Rate (kbps)',
+                        data: Array.from({length: 20}, () => 50 + Math.random() * 10),
+                        borderColor: '#2D2D2A',
+                        backgroundColor: 'rgba(212, 163, 115, 0.2)',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true,
+                        pointRadius: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: false, min: 30, max: 80, grid: { color: '#f0f0f0' } },
+                        x: { display: false }
+                    }
+                }
+            });
+
+            // 2. Agent Security Doughnut
+            const ctxAgent = document.getElementById('agentChart').getContext('2d');
+            state.charts.agent = new Chart(ctxAgent, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Verified (Quantum Signed)', 'Blocked (Injection Attempt)', 'Failed Handshake'],
+                    datasets: [{
+                        data: [85, 5, 10],
+                        backgroundColor: ['#4A7C59', '#C05746', '#D4A373'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { 
+                        legend: { position: 'right', labels: { boxWidth: 10, font: {size: 10} } } 
+                    }
+                }
+            });
+
+            // 3. Network Fidelity Bar
+            const ctxNet = document.getElementById('networkChart').getContext('2d');
+            state.charts.net = new Chart(ctxNet, {
+                type: 'bar',
+                data: {
+                    labels: ['Link A-B', 'Link B-C', 'Link C-D', 'Repeater 1'],
+                    datasets: [{
+                        label: 'Fidelity',
+                        data: [0.98, 0.92, 0.88, 0.95],
+                        backgroundColor: '#8A817C',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: { beginAtZero: true, max: 1.0, grid: { color: '#f0f0f0' } }
+                    }
+                }
+            });
+        }
+
+        // --- Simulation Logic ---
+        function addLog(msg, type='info') {
+            const div = document.createElement('div');
+            const time = new Date().toLocaleTimeString();
+            div.textContent = `[${time}] ${msg}`;
+            
+            if(type === 'error') div.className = "text-red-600 font-bold";
+            else if(type === 'success') div.className = "text-green-700";
+            else div.className = "text-stone-600";
+
+            securityLog.prepend(div);
+            // Keep log clean
+            if(securityLog.children.length > 50) securityLog.lastChild.remove();
+        }
+
+        function updateSimulation() {
+            // Update QKD Chart
+            const qkdData = state.charts.qkd.data.datasets[0].data;
+            let newVal = qkdData[qkdData.length - 1] + (Math.random() - 0.5) * 5;
+            // Introduce simulated noise if attacking
+            if(state.isAttacking) newVal = newVal * 0.4; // Drop in key rate due to eavesdropping
+            
+            qkdData.shift();
+            qkdData.push(newVal);
+            state.charts.qkd.update('none'); // 'none' for smooth animation
+
+            // Update Agent Chart based on attack
+            const agentData = state.charts.agent.data.datasets[0].data;
+            if(state.isAttacking) {
+                // Increase blocked attempts
+                agentData[1] += 1; 
+                addLog("ALERT: Unsigned prompt injection detected! Dropping packet.", "error");
+            } else {
+                // Increase verified
+                if(Math.random() > 0.7) {
+                    agentData[0] += 1;
+                    addLog("CMD: Agent executed prompt via verified Q-Channel.", "success");
+                }
+            }
+            state.charts.agent.update();
+        }
+
+        // --- Event Listeners ---
+        document.getElementById('btn-simulate-attack').addEventListener('click', function() {
+            state.isAttacking = !state.isAttacking;
+            this.textContent = state.isAttacking ? "Stop Attack" : "Simulate MITM Attack";
+            this.classList.toggle('bg-red-100');
+            this.classList.toggle('text-red-800');
+            
+            if(state.isAttacking) {
+                addLog("WARNING: Eavesdropper detected on Quantum Channel. Key Rate dropping.", "error");
+            } else {
+                addLog("SYS: Intruder isolated. Key Rate stabilizing.", "success");
+            }
+        });
+
+        document.getElementById('btn-reset-sim').addEventListener('click', function() {
+            state.charts.agent.data.datasets[0].data = [85, 5, 10];
+            state.isAttacking = false;
+            document.getElementById('btn-simulate-attack').textContent = "Simulate MITM Attack";
+            document.getElementById('btn-simulate-attack').className = "px-4 py-2 bg-stone-200 hover:bg-stone-300 text-stone-800 rounded text-sm font-medium transition-colors";
+            addLog("SYS: System Reset. Quantum Memory Cleared.");
+            state.charts.agent.update();
+        });
+
+        // --- Initialization ---
+        window.onload = function() {
+            renderRoadmap();
+            initCharts();
+            
+            // Start simulation loop
+            setInterval(updateSimulation, 2000);
+        };
+
+    </script>
+</body>
+</html>
